@@ -39,5 +39,6 @@ if(is_string($results)) $results = array("resultat" => $results);
 // On ajoute l'heure actuelle au retour
 $results["request_time"] = time();
 
+// On renvoie le retour de la méthode de l'API.
 echo json_encode($results);
 ?>
