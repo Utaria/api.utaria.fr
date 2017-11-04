@@ -1,6 +1,6 @@
 <?php
 function error($code = 500, $error, $message = "") {
-	header("HTTP/1.0 $code $error");
+	http_response_code($code);
 
 	echo json_encode(array(
 		"error" => $error,
