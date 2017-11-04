@@ -7,34 +7,37 @@ header('Content-Type: application/json');
 
 if(!isset($_GET["uri"])) $_GET["uri"] = "";
 
-$uri  = $_GET["uri"];
-$uri  = str_replace("/api", "", $uri);
-$base = "methods";
+$uri  = trim($_GET["uri"], "/");
+$base = "methods/";
 
 $method_file = $base . $uri . ".php";
 
 // On regarde si la méthode existe bien.
-if(!file_exists($method_file)) error(1, "Methode inconnue.");
+if(!file_exists($method_file)) error(404, "Not Found");
 require_once $method_file;
 
 // On regarde si la fonction run a bien été définie dans le fichier.
-if (!function_exists("run")) error(2, "Appel de la methode impossible.");
+if (!function_exists("run")) error(404, "Not Found");
 
 if (isset($protected) && $protected) {
 	if (!isset($_GET["token"]))
-		error(10, "Token obligatoire pour appeler cette methode.");
+		error(401, "Unauthorized", "Clé d'API requis");
 
 	if (!in_array($_GET["token"], $AUTHORIZED_TOKENS))
-		error(11, "Token incorrect.");
+		error(400, "Bad Request", "Token incorrect");
 }
 
 // On lance la méthode de l'API
 unset($_GET["uri"]);
+unset($_GET["token"]);
+
 $results = run($_GET);
 
 // Si elle ne retourne rien (mais pas true), on affiche "aucun résultat".
-if(empty($results) && $results !== true) error(3, "Aucun resultat.");
-if(is_string($results)) $results = array("resultat" => $results);
+if(empty($results) && $results !== true)
+	error(403, "Forbidden", "Aucun resultat");
+if(is_string($results))
+	$results = array("result" => $results);
 
 // On ajoute l'heure actuelle au retour
 $results["request_time"] = time();

@@ -1,12 +1,13 @@
 <?php
-function error($code = 0, $message) {
+function error($code = 500, $error, $message = "") {
+	header("HTTP/1.0 $code $error");
 
 	echo json_encode(array(
-		"error" => array(
-			"code"    => $code,
-			"message" => $message
-		)
+		"error" => $error,
+		"status" => $code,
+		"message" => $message
 	));
+
 
 	exit();
 	die();
