@@ -1,0 +1,32 @@
+{
+  "name": "api.utaria.fr",
+  "version": "2.0.0",
+  "description": "API d'UTARIA",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.utaria.fr/Utaria/api.utaria.fr.git"
+  },
+  "keywords": [
+    "api",
+    "restful",
+    "rest"
+  ],
+  "author": "UTARIA",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.14.7"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "morgan": "^1.9.0",
+    "mysql": "^2.15.0",
+    "request": "^2.83.0"
+  }
+}
