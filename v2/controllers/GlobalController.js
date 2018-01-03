@@ -3,7 +3,7 @@
 const ApiUserModel = require("../models/ApiUserModel");
 const jwt          = require("jsonwebtoken");
 const config       = require("../../storage/config");
-const sha1         = require('sha1');
+const bcrypt       = require('bcrypt');
 
 module.exports.home_version = function(req, res) {
     res.json({
@@ -22,23 +22,24 @@ module.exports.authenticate = function(req, res) {
             res.json({success: false, message: 'Authentication failed. User not found.'});
         } else if (user) {
             // check if password matches
-            if (user.password !== sha1(req.body.password)) {
-                res.json({success: false, message: 'Authentication failed. Wrong password.'});
-            } else {
+            bcrypt.compare(req.body.password, user.password, function(cryptErr, cryptRes) {
+                if(cryptRes) {
+                    // if user is found and password is right
+                    // create a token with only our given payload
+                    // we don't want to pass in the entire user since that has the password
+                    const payload = { admin: user.admin };
+                    const token = jwt.sign(payload, config.secretToken, { expiresIn: 60 });
 
-                // if user is found and password is right
-                // create a token with only our given payload
-                // we don't want to pass in the entire user since that has the password
-                const payload = { admin: user.admin };
-                const token = jwt.sign(payload, config.secretToken, { expiresIn: 60 });
-
-                // return the information including token as JSON
-                res.json({
-                    success: true,
-                    message: 'Enjoy your token!',
-                    token: token
-                });
-            }
+                    // return the information including token as JSON
+                    res.json({
+                        success: true,
+                        message: 'Enjoy your token!',
+                        token: token
+                    });
+                } else {
+                    res.json({success: false, message: 'Authentication failed. Wrong password.'});
+                }
+            });
         }
     });
 };
