@@ -5,6 +5,6 @@ module.exports = function(router) {
     // Auth
     router.use(require("../util/Authentication"));
 
-    router.route('/plugins/db').get(plugin.get_db_plugin);
-    router.route('/plugins/core').get(plugin.get_core_plugin);
+    router.route('/plugins/:plugin').get(plugin.get_plugin_artifact);
+    router.route('/databases/:ip').get(plugin.get_database_with_ip);
 };
