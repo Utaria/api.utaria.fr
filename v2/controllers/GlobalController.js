@@ -3,6 +3,7 @@
 const ApiUserModel = require("../models/ApiUserModel");
 const jwt          = require("jsonwebtoken");
 const config       = require("../../storage/config");
+const sha1         = require('sha1');
 
 module.exports.home_version = function(req, res) {
     res.json({
@@ -21,7 +22,7 @@ module.exports.authenticate = function(req, res) {
             res.json({success: false, message: 'Authentication failed. User not found.'});
         } else if (user) {
             // check if password matches
-            if (user.password !== req.body.password) {
+            if (user.password !== sha1(req.body.password)) {
                 res.json({success: false, message: 'Authentication failed. Wrong password.'});
             } else {
 
