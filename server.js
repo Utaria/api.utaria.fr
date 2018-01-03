@@ -6,6 +6,7 @@ const morgan     = require('morgan');
 
 
 // Some configuration before routes
+app.enable('trust proxy');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
