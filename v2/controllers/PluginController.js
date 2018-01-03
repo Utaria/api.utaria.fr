@@ -2,7 +2,8 @@
 
 const request = require('request');
 const Jenkins = require("../util/Jenkins");
-const config = require("../../storage/config");
+const config  = require("../../storage/config");
+const Model   = require("../models/PluginModel");
 
 module.exports.get_plugin_artifact = function(req, res) {
     const jenkins = new Jenkins(config.jenkins);
@@ -30,12 +31,36 @@ module.exports.get_plugin_artifact = function(req, res) {
     });
 };
 
-module.exports.get_database_with_ip = function(req, res) {
-    const ip = req.params.ip;
+module.exports.get_database_server = function(req, res) {
+    const name = req.params.name;
+    const ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress).split(",")[0];
 
-    // TODO support production servers
-    res.json({
-        success: true,
-        db_url: "utaria.db"
+    Model.getDatabaseByName(name, function(err, data) {
+        if (err || !data || data.length === 0) {
+            res.status(404).json({
+                error: "No database found!",
+                message: "The database with the name " + name + " doesn't exist!"
+            });
+        } else {
+            for (let i = 0; i < data.length; i++) {
+                const database = data[i];
+
+                if (ip.match(database.from)) {
+                    res.json({
+                        success: true,
+                        name: name,
+                        from: ip,
+                        server: database.server
+                    });
+
+                    return false;
+                }
+            }
+
+            res.status(404).json({
+                error: "No database found!",
+                message: "No database accessible from your IP address!"
+            });
+        }
     });
 };

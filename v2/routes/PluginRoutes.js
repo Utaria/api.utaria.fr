@@ -6,5 +6,5 @@ module.exports = function(router) {
     router.use(require("../util/Authentication"));
 
     router.route('/plugins/:plugin').get(plugin.get_plugin_artifact);
-    router.route('/databases/:ip').get(plugin.get_database_with_ip);
+    router.route('/databases/:name').get(plugin.get_database_server);
 };

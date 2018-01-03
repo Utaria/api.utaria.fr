@@ -18,7 +18,6 @@ const router = new express.Router();
 
 // All routes
 require('./v' + config.version + '/routes/GlobalRoutes')(router);
-require('./v' + config.version + '/routes/PlayerRoutes')(router);
 require('./v' + config.version + '/routes/PluginRoutes')(router);
 
 /* --------------------------------------------------------- */
