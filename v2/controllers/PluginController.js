@@ -31,6 +31,29 @@ module.exports.get_plugin_artifact = function(req, res) {
     });
 };
 
+module.exports.get_plugin_description = function(req, res) {
+    const jenkins = new Jenkins(config.jenkins);
+
+    const name = req.params.plugin;
+    if (name !== "core" && name !== "db")
+        return false;
+
+    const jenkinsJob = (name === "core") ? "UtariaCore-dev" : "UtariaDatabase-production";
+    const plugin = (name === "core") ? "utariacore" : "utariadatabase";
+
+    jenkins.getPluginYmlOf(jenkinsJob, plugin, function(err, data) {
+        if (err) {
+            res.status(502).json({
+                error: "Jenkins error!",
+                message: err
+            });
+            return false;
+        }
+
+        res.send(data);
+    });
+};
+
 module.exports.get_database_server = function(req, res) {
     const name = req.params.name;
     const ip = (req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress).split(",")[0];

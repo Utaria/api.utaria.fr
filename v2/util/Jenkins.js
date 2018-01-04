@@ -35,11 +35,8 @@ Jenkins.prototype = {
 
     getLastArtifactPathOf(job, module, callback) {
         const apiPath = this.endpointUrl + "job/" + job + "/" + module + "/lastCompletedBuild/";
-        const headers = [];
 
-        headers[this.crumbField] = this.crumb;
-
-        request(apiPath + "api/json", { headers: headers }, function(error, response, body) {
+        request(apiPath + "api/json", this.getHeaders(), function(error, response, body) {
             if (error || !response || response.statusCode !== 200) {
                 callback("Cannot retrieve informations about Jenkins module " + job + "/" + module + "!", null);
             } else {
@@ -56,9 +53,30 @@ Jenkins.prototype = {
         });
     },
 
+    getPluginYmlOf(job, pluginName, callback) {
+        // https://ci.utaria.fr/job/UtariaCore-dev/ws/utariacore/src/main/resources/plugin.yml
+        // https://ci.utaria.fr/job/UtariaDatabase-production/ws/utariadatabase/src/main/resources/plugin.yml
+        const path = this.endpointUrl + "job/" + job + "/ws/" + pluginName + "/src/main/resources/plugin.yml";
+
+        request(path, this.getHeaders(), function(error, response, body) {
+            if (error || !response || response.statusCode !== 200) {
+                callback("Cannot retrieve plugin Yml for plugin " + job + ":" + pluginName + "!", null);
+            } else {
+                callback(null, body);
+            }
+        });
+    },
+
     generateEndpointUrl() {
         const protocol = (this.config.https) ? "https" : "http";
         return protocol + '://' + this.config.user + ':' + this.config.token + '@' + this.config.host + "/";
+    },
+
+    getHeaders() {
+        const headers = [];
+
+        headers[this.crumbField] = this.crumb;
+        return { headers: headers };
     }
 
 };
