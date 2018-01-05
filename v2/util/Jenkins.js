@@ -54,8 +54,6 @@ Jenkins.prototype = {
     },
 
     getPluginYmlOf(job, pluginName, callback) {
-        // https://ci.utaria.fr/job/UtariaCore-dev/ws/utariacore/src/main/resources/plugin.yml
-        // https://ci.utaria.fr/job/UtariaDatabase-production/ws/utariadatabase/src/main/resources/plugin.yml
         const path = this.endpointUrl + "job/" + job + "/ws/" + pluginName + "/src/main/resources/plugin.yml";
 
         request(path, this.getHeaders(), function(error, response, body) {

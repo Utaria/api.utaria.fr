@@ -34,6 +34,7 @@ module.exports.authenticate = function(req, res) {
                     res.json({
                         success: true,
                         message: 'Enjoy your token!',
+                        admin: user.admin,
                         token: token
                     });
                 } else {

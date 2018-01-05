@@ -5,6 +5,7 @@ module.exports = function(router) {
     // Auth
     router.use(require("../util/Authentication"));
 
+    router.route('/plugins').get(plugin.get_plugin_list);
     router.route('/plugins/:plugin').get(plugin.get_plugin_artifact);
     router.route('/plugindescriptions/:plugin').get(plugin.get_plugin_description);
 
