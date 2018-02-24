@@ -35,7 +35,8 @@ module.exports.authenticate = function(req, res) {
                         success: true,
                         message: 'Enjoy your token!',
                         admin: user.admin,
-                        token: token
+                        token: token,
+                        expiresAt: Date.now() + 60 * 1000
                     });
                 } else {
                     res.json({success: false, message: 'Authentication failed. Wrong password.'});

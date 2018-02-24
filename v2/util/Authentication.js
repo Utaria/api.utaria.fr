@@ -15,7 +15,7 @@ function Authentication(req, res, next) {
         // verifies secret and checks exp
         jwt.verify(token, config.secretToken, function(err, decoded) {
             if (err) {
-                return res.status(401).json({ error: 'Authentification failed', message: 'Failed to authenticate token.' });
+                return res.status(401).json({ error: 'Authentication failed', message: 'Failed to authenticate token.' });
             } else {
                 // if everything is good, save to request for use in other routes
                 req.decoded = decoded;
@@ -25,7 +25,7 @@ function Authentication(req, res, next) {
 
     } else {
         return res.status(403).json({
-            error: 'Authentification failed',
+            error: 'Authentication failed',
             message: 'No token provided.'
         });
     }
