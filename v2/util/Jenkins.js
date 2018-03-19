@@ -56,13 +56,14 @@ Jenkins.prototype = {
     getPluginYmlOf(job, pluginName, callback) {
         // On récupère le chemin du YAML suivant la structure des plugins UTARIA ...
         const path = this.endpointUrl + "job/" + job + "/ws/" + pluginName + "/src/main/resources/plugin.yml";
+        const self = this;
 
         request(path, this.getHeaders(), function(error, response, body) {
             if (error || !response || response.statusCode !== 200) {
                 // ... et sinon on test avec un format de plugin classique.
-                const path2 = this.endpointUrl + "job/" + job + "/ws/src/main/resources/plugin.yml";
+                const path2 = self.endpointUrl + "job/" + job + "/ws/src/main/resources/plugin.yml";
 
-                request(path2, this.getHeaders(), function(error2, response2, body2) {
+                request(path2, self.getHeaders(), function(error2, response2, body2) {
                     if (error2 || !response2 || response2.statusCode !== 200) {
                         callback("Cannot retrieve plugin Yml for plugin " + job + ":" + pluginName + "!", null);
                     } else {
