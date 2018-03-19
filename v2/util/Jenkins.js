@@ -62,11 +62,11 @@ Jenkins.prototype = {
                 // ... et sinon on test avec un format de plugin classique.
                 const path2 = this.endpointUrl + "job/" + job + "/ws/src/main/resources/plugin.yml";
 
-                request(path2, this.getHeaders(), function(error, response, body) {
-                    if (error || !response || response.statusCode !== 200) {
+                request(path2, this.getHeaders(), function(error2, response2, body2) {
+                    if (error2 || !response2 || response2.statusCode !== 200) {
                         callback("Cannot retrieve plugin Yml for plugin " + job + ":" + pluginName + "!", null);
                     } else {
-                        callback(null, body);
+                        callback(null, body2);
                     }
                 });
             } else {
