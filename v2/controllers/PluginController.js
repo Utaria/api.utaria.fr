@@ -8,8 +8,8 @@ const Model   = require("../models/PluginModel");
 module.exports.get_plugin_list = function(req, res) {
     const ip = getIP(req);
 
-    Model.getPluginsForIP(ip, function(err, plugins) {
-        if (err || plugins.length === 0) {
+    Model.getPluginsForIP(ip, function(err, availablePlugins, defaultPlugins) {
+        if (err || availablePlugins.length === 0) {
             res.status(404).json({
                 error: "No plugin!",
                 message: "No plugin was found where you want to load it!"
@@ -17,7 +17,10 @@ module.exports.get_plugin_list = function(req, res) {
             return false;
         }
 
-        res.json(plugins);
+        res.json({
+            "default" : defaultPlugins,
+            "available" : availablePlugins
+        });
     });
 };
 

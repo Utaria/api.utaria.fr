@@ -3,17 +3,22 @@ const db = require("../../db");
 const Plugin = {
 
     getPluginsForIP(ip, callback) {
-        return db.query("select `key`, `from`, name from plugins order by priority asc", function(err, data) {
+        return db.query("select `key`, `from`, `default`, name from plugins", function(err, data) {
             if (err || !data || data.length === 0) {
                 callback(err, null);
             } else {
                 let plugins = {};
+                let defPlugins = [];
 
                 for (const plugin of data)
                     if (String(ip).match(plugin.from))
                         plugins[plugin.key] = plugin.name;
 
-                callback(null, plugins);
+                for (const plugin of data)
+                    if (plugin.default)
+                        defPlugins.push(plugin.key);
+
+                callback(null, plugins, defPlugins);
             }
         });
     },
