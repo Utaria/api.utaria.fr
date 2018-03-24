@@ -15,7 +15,7 @@ const Plugin = {
                         plugins[plugin.key] = plugin.name;
 
                 for (const plugin of data)
-                    if (plugin.default)
+                    if (plugin.default && defPlugins.indexOf(plugin.key) === -1)
                         defPlugins.push(plugin.key);
 
                 callback(null, plugins, defPlugins);
@@ -24,7 +24,7 @@ const Plugin = {
     },
 
     getPluginByKeyAndIP(key, ip, callback) {
-        return db.query("select * from plugins where `key` = ? order by priority asc", [key], function(err, data) {
+        return db.query("select * from plugins where `key` = ?", [key], function(err, data) {
             if (err || !data || data.length === 0) {
                 callback(err, null);
             } else {
