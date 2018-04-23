@@ -14,6 +14,16 @@ const PlayerModel = {
                 callback(null, data[0]);
             }
         });
+    },
+
+    authenticateIGN: function (name, callback) {
+        return db.query("select * from players where playername = ?", [name], function(err, data) {
+            if (err || !data || data.length === 0) {
+                callback(err, null);
+            } else {
+                callback(null, data[0]);
+            }
+        });
     }
 
 };

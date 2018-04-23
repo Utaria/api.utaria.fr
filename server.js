@@ -20,6 +20,10 @@ const router = new express.Router();
 // All routes
 const prefix = './v' + config.version + '/routes/';
 
+const player = require('./v2/controllers/PlayerController');
+// Pas besoin d'authentification pour ces actions-là
+router.route('/players/ignauth').get(player.ignauth);
+
 require(prefix + 'GlobalRoutes')(router);
 require(prefix + 'PluginRoutes')(router);
 require(prefix + 'PlayerRoutes')(router);

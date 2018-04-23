@@ -5,5 +5,6 @@ module.exports = function(router) {
     // Auth
     router.use(require("../util/Authentication"));
 
+    // Auth
     router.route('/players/authenticate').post(player.authenticate);
 };
