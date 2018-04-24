@@ -3,7 +3,7 @@ const db = require("../../db");
 const Plugin = {
 
     getPluginsForIP(ip, callback) {
-        return db.query("select `key`, `from`, `default`, name from plugins", function(err, data) {
+        return db.query("select `key`, `from`, `default`, name from api.plugins", function(err, data) {
             if (err || !data || data.length === 0) {
                 callback(err, null);
             } else {
@@ -24,7 +24,7 @@ const Plugin = {
     },
 
     getPluginByKeyAndIP(key, ip, callback) {
-        return db.query("select * from plugins where `key` = ?", [key], function(err, data) {
+        return db.query("select * from api.plugins where `key` = ?", [key], function(err, data) {
             if (err || !data || data.length === 0) {
                 callback(err, null);
             } else {
@@ -47,7 +47,7 @@ const Plugin = {
     },
 
     getDatabaseByName: function (name, callback) {
-        return db.query("select name, `from`, server from `databases` where name = ?", [name], callback);
+        return db.query("select name, `from`, server from `api.databases` where name = ?", [name], callback);
     }
 
 };
