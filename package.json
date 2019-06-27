@@ -1,23 +1,24 @@
 {
   "name": "api.utaria.fr",
   "version": "2.0.0",
-  "description": "API d'UTARIA",
+  "description": "API interne de gestion du réseau Utaria",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "watch": "nodemon server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.utaria.fr/Utaria/api.utaria.fr.git"
+    "url": "https://github.com/Utaria/api.utaria.fr.git"
   },
   "keywords": [
     "api",
     "restful",
-    "rest"
+    "rest",
+    "minecraft"
   ],
-  "author": "UTARIA",
-  "license": "ISC",
+  "author": "Utarwyn <maxime.malgorn@laposte.net>",
+  "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.19.1"
   },

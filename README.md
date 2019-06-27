@@ -6,7 +6,7 @@
 <h4 align="center">
 API interne de gestion du réseau Utaria
 <br>
-Propulsée par Express et JWT.
+Propulsée par Express et JWT
 </h4>
 
 <p align="center">
@@ -53,6 +53,34 @@ L'API utilise principalement les librairies suivantes :
 * Express **4.+** : cadre web rapide et minimaliste pour Node
 * JWT (jsonwebtoken) **8.+** : une implémentation des JSON Web Tokens
 * Mysql **2.+** : connecteur simple et rapide à nos bases de données
+
+## Configuration et lancement de l'API
+
+1. Vous devez créer un dossier storage, qui doit contenir un fichier de configuration pour l'API nommé **config.json**. En voici un exemple : \
+    \
+    **storage/config.json:**
+    ```
+    {
+      "version": 2,
+      "port": 3000,
+      "secretToken": "__MA_CLE_SECRETE__",
+      "mysql": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "api",
+        "password": "",
+        "database": "api"
+      },
+      "jenkins": {
+        "https": true,
+        "host": "https://ci.utaria.fr",
+        "user": "api",
+        "token": "__MON_TOKEN_JENKINS__"
+      }
+    }
+    ```
+2. Ensuite, installez les dépendances en tapant `npm install` dans le dossier racine.
+3. Vous pouvez maintenant démarrer l'API avec la commande `npm start` ou `npm run watch` (pour lancer l'écouteur de modifications de fichier)
 
 ## Remerciements
 
